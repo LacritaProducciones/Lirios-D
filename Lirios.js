@@ -1,131 +1,279 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+let W,H;
+function resize(){
+  W = canvas.width = innerWidth;
+  H = canvas.height = innerHeight;
 }
 resize();
-window.addEventListener("resize", resize);
+addEventListener("resize",resize);
 
 let t = 0;
 
-/* 🌸 pétalo de lirio (largo y curvado hacia atrás) */
-function lilyPetal(size, angle, phase) {
+// ---------- LIRIO ----------
+function petalo(size, ang, ph){
   ctx.save();
-  ctx.rotate(angle + Math.sin(t + phase) * 0.03);
-
-  const grad = ctx.createLinearGradient(0, 0, 0, -size);
-  grad.addColorStop(0, "#fff1f7");
-  grad.addColorStop(0.4, "#e38ac4");
-  grad.addColorStop(1, "#8e2b73");
-
+  ctx.rotate(ang + Math.sin(t+ph)*0.03);
+  const g = ctx.createLinearGradient(0,0,0,-size);
+  g.addColorStop(0,"#ffe6f2");
+  g.addColorStop(.5,"#d66ab1");
+  g.addColorStop(1,"#8c2a73");
   ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(
-    size * 0.25, -size * 0.4,
-    size * 0.15, -size * 0.9,
-    0, -size
-  );
-  ctx.bezierCurveTo(
-    -size * 0.15, -size * 0.9,
-    -size * 0.25, -size * 0.4,
-    0, 0
-  );
-
-  ctx.fillStyle = grad;
-  ctx.shadowBlur = 25;
-  ctx.shadowColor = "#b84fa2";
+  ctx.moveTo(0,0);
+  ctx.bezierCurveTo(size*.3,-size*.4,size*.2,-size*.9,0,-size);
+  ctx.bezierCurveTo(-size*.2,-size*.9,-size*.3,-size*.4,0,0);
+  ctx.fillStyle=g;
+  ctx.shadowBlur=15;
+  ctx.shadowColor="rgba(180,80,160,.7)";
   ctx.fill();
-
   ctx.restore();
 }
 
-/* 🌾 estambres */
-function stamens() {
-  for (let i = 0; i < 6; i++) {
-    const a = (Math.PI * 2 / 6) * i;
+function pistilos(){
+  for(let i=0;i<6;i++){
     ctx.save();
-    ctx.rotate(a);
-
+    ctx.rotate((Math.PI*2/6)*i);
     ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, -55);
-    ctx.strokeStyle = "#f4d06f";
-    ctx.lineWidth = 2;
+    ctx.moveTo(0,0);
+    ctx.lineTo(0,-45);
+    ctx.strokeStyle="#f5d76e";
+    ctx.lineWidth=2;
     ctx.stroke();
-
     ctx.beginPath();
-    ctx.arc(0, -58, 4, 0, Math.PI * 2);
-    ctx.fillStyle = "#d18b00";
+    ctx.arc(0,-48,4,0,Math.PI*2);
+    ctx.fillStyle="#d18b00";
     ctx.fill();
-
     ctx.restore();
   }
 }
 
-/* 🌺 lirio completo */
-function lily(x, y, scale, phase) {
+function lirio(x,y,s,p){
   ctx.save();
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
+  ctx.translate(x,y);
+  ctx.scale(s,s);
+  for(let i=0;i<3;i++) petalo(120,(Math.PI*2/3)*i+.3,p+i);
+  for(let i=0;i<3;i++) petalo(115,(Math.PI*2/3)*i-.3,p+i+2);
+  pistilos();
+  ctx.restore();
+}
 
-  // pétalos traseros
-  for (let i = 0; i < 3; i++) {
-    lilyPetal(140, (Math.PI * 2 / 3) * i + 0.3, phase + i);
-  }
+// ---------- ENVOLTURA (BRILLO + DOBLES + LÍNEAS ARRIBA) ----------
+function envoltura(){
+  ctx.save();
+  ctx.translate(0, 140);
 
-  // pétalos frontales
-  for (let i = 0; i < 3; i++) {
-    lilyPetal(130, (Math.PI * 2 / 3) * i - 0.3, phase + i + 2);
-  }
+  // forma principal
+  ctx.beginPath();
+  ctx.moveTo(-220, -70);
+  ctx.lineTo(0, 280);
+  ctx.lineTo(220, -70);
+  ctx.closePath();
+  ctx.fillStyle = "#0b0b0b";
+  ctx.fill();
 
-  stamens();
+  // brillo suave en bordes
+  ctx.strokeStyle = "rgba(180, 90, 200, 0.25)";
+  ctx.lineWidth = 2;
+  ctx.shadowBlur = 12;
+  ctx.shadowColor = "rgba(180, 90, 200, 0.6)";
+  ctx.stroke();
+
+  ctx.shadowBlur = 0;
+  ctx.lineWidth = 1.4;
+  ctx.strokeStyle = "rgba(255,255,255,0.14)";
+
+  // ===== DOBLES LATERALES =====
+  // izquierdo
+  ctx.beginPath();
+  ctx.moveTo(-140, -40);
+  ctx.lineTo(-40, 230);
+  ctx.stroke();
+
+  // línea superior izquierda
+  ctx.beginPath();
+  ctx.moveTo(-155, -40);
+  ctx.lineTo(-125, -40);
+  ctx.stroke();
+
+  // derecho
+  ctx.beginPath();
+  ctx.moveTo(140, -40);
+  ctx.lineTo(40, 230);
+  ctx.stroke();
+
+  // línea superior derecha
+  ctx.beginPath();
+  ctx.moveTo(125, -40);
+  ctx.lineTo(155, -40);
+  ctx.stroke();
+
+  // ===== DOBLES CENTRALES =====
+  // centro izquierdo
+  ctx.beginPath();
+  ctx.moveTo(-60, -30);
+  ctx.lineTo(-10, 240);
+  ctx.stroke();
+
+  // línea superior centro izquierdo
+  ctx.beginPath();
+  ctx.moveTo(-70, -30);
+  ctx.lineTo(-45, -30);
+  ctx.stroke();
+
+  // centro derecho
+  ctx.beginPath();
+  ctx.moveTo(60, -30);
+  ctx.lineTo(10, 240);
+  ctx.stroke();
+
+  // línea superior centro derecho
+  ctx.beginPath();
+  ctx.moveTo(45, -30);
+  ctx.lineTo(70, -30);
+  ctx.stroke();
 
   ctx.restore();
 }
 
-/* 🌿 hojas largas */
-function leaf(x, y, scale, angle) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
-  ctx.rotate(angle);
 
-  const grad = ctx.createLinearGradient(0, 0, 0, 200);
-  grad.addColorStop(0, "#7bd69f");
-  grad.addColorStop(1, "#1f6b4f");
+
+
+
+// ---------- LAZO / MOÑO (A LA MITAD DE LA ENVOLTURA) ----------
+function cinta(){
+  ctx.save();
+  ctx.translate(0, 250); // ⬆️ MÁS ARRIBA (mitad de la envoltura)
+
+  // nudo central
+  ctx.fillStyle = "#8e3a83";
+  ctx.beginPath();
+  ctx.arc(0, 18, 16, 0, Math.PI * 2);
+  ctx.fill();
+
+  // lazo izquierdo
+  ctx.beginPath();
+  ctx.moveTo(-16, 18);
+  ctx.quadraticCurveTo(-75, -10, -85, 30);
+  ctx.quadraticCurveTo(-60, 65, -16, 36);
+  ctx.fill();
+
+  // lazo derecho
+  ctx.beginPath();
+  ctx.moveTo(16, 18);
+  ctx.quadraticCurveTo(75, -10, 85, 30);
+  ctx.quadraticCurveTo(60, 65, 16, 36);
+  ctx.fill();
+
+  // tiras colgantes
+  ctx.fillStyle = "#6f2b63";
 
   ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.quadraticCurveTo(40, 120, 0, 220);
-  ctx.quadraticCurveTo(-40, 120, 0, 0);
-  ctx.fillStyle = grad;
+  ctx.moveTo(-8, 38);
+  ctx.lineTo(-32, 135);
+  ctx.lineTo(-4, 135);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(8, 38);
+  ctx.lineTo(32, 135);
+  ctx.lineTo(4, 135);
+  ctx.closePath();
   ctx.fill();
 
   ctx.restore();
 }
 
-/* 🌸 animación */
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+// ---------- TARJETA ----------
+function tarjeta(){
   ctx.save();
-  ctx.translate(canvas.width / 2, canvas.height / 2 + 60);
-
-  // hojas
-  leaf(-90, 120, 1, -0.4);
-  leaf(90, 120, 1, 0.4);
-
-  // lirios (ramo)
-  lily(-120, 0, 0.9, 0);
-  lily(0, -40, 1.1, 1);
-  lily(120, 0, 0.9, 2);
-
+  ctx.translate(120,260);
+  ctx.fillStyle="#fff";
+  ctx.shadowBlur=10;
+  ctx.shadowColor="rgba(0,0,0,.4)";
+  ctx.fillRect(0,0,170,55);
+  ctx.shadowBlur=0;
+  ctx.fillStyle="#6a2c5f";
+  ctx.font="bold 14px Arial";
+  ctx.textAlign="center";
+  ctx.fillText("Para mi niña hermosa",85,22);
+  ctx.font="italic 12px Arial";
+  ctx.fillText("(da click)",85,42);
   ctx.restore();
-
-  t += 0.015;
-  requestAnimationFrame(animate);
 }
 
-animate();
+// ---------- LOOP ----------
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  ctx.save();
+  ctx.translate(W/2, H/2-180);
+
+  const pos=[
+    [-120,-50,.9,0],
+    [-60,-90,1,1],
+    [0,-120,1.15,2],
+    [60,-90,1,3],
+    [120,-50,.9,4],
+    [-90,-10,.8,5],
+    [90,-10,.8,6]
+  ];
+  pos.forEach(p=>lirio(...p));
+
+  envoltura();
+  cinta();
+  tarjeta();
+
+  ctx.restore();
+  t+=.015;
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ---------- CARTA ----------
+const letter=document.getElementById("letter");
+const letterText=document.getElementById("letterText");
+
+canvas.addEventListener("click",e=>{
+  const x=e.clientX,y=e.clientY;
+  if(x>W/2+120 && x<W/2+290 && y>H/2+80 && y<H/2+135){
+    showLetter(x,y);
+  }
+});
+
+function showLetter(){
+  // aparece al lado derecho del ramo
+  letter.style.left = (W / 2 + 260) + "px"; 
+  letter.style.top  = (H / 2 - 120) + "px"; // misma altura visual que las flores
+
+
+  letter.classList.add("show");
+  letterText.textContent = "";
+
+  const msg = `Mi amor,
+
+desde que llegaste a mi vida todo empezó a sentirse distinto, más bonito, más tranquilo, más real, contigo aprendí que el amor no siempre tiene que doler, que también puede ser suave, sincero, lleno de risas y de abrazos que curan todo,
+
+han pasado 3 meses y aun así siento que te conozco desde hace mucho más, porque contigo todo fluye, contigo soy yo sin miedo, sin máscaras, sin dudas, contigo puedo ser cursi, intenso, callado, loco, soñador, y aun así tú me miras como si eso fuera perfecto,
+
+me encanta la forma en la que sonríes, la forma en la que hablas, la forma en la que me miras sin decir nada y aun así lo dices todo, me encanta cómo me haces sentir en casa incluso cuando estoy lejos, cómo haces que un día normal se vuelva especial solo con existir,
+
+no prometo ser perfecto, pero sí prometo amarte con todo lo que soy, cuidarte, respetarte, elegirte todos los días, incluso en los días difíciles, incluso cuando no sepamos qué decir, incluso cuando el mundo se sienta pesado,
+
+gracias por estos 3 meses, gracias por tu paciencia, por tu cariño, por tu ternura, por quedarte, por enseñarme que amar así de bonito sí es posible,
+
+te amo más de lo que puedo explicar, más de lo que estas palabras alcanzan, más de lo que a veces sé decir, pero siempre con el corazón completo,
+
+siempre tuyo,
+con todo mi amor 💖`;
+
+  let i = 0;
+  const it = setInterval(() => {
+    if (i >= msg.length) {
+      clearInterval(it);
+      return;
+    }
+    letterText.textContent += msg[i++];
+  }, 28);
+}
