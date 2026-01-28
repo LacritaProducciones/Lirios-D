@@ -232,23 +232,31 @@ function draw(){
 draw();
 
 // ---------- CARTA ----------
-const letter=document.getElementById("letter");
-const letterText=document.getElementById("letterText");
+const letter = document.getElementById("letter");
+const letterText = document.getElementById("letterText");
 
-canvas.addEventListener("click",e=>{
-  const x=e.clientX,y=e.clientY;
-  if(x>W/2+120 && x<W/2+290 && y>H/2+80 && y<H/2+135){
-    showLetter(x,y);
+// detectar click en la tarjeta
+canvas.addEventListener("click", e => {
+  const x = e.clientX;
+  const y = e.clientY;
+
+  if (
+    x > W / 2 + 120 &&
+    x < W / 2 + 290 &&
+    y > H / 2 + 80 &&
+    y < H / 2 + 135
+  ) {
+    showLetter();
   }
 });
 
-function showLetter(){
-  // aparece al lado derecho del ramo
-  letter.style.left = (W / 2 + 260) + "px"; 
-  letter.style.top  = (H / 2 - 120) + "px"; // misma altura visual que las flores
-
+function showLetter() {
+  // posición al lado del ramo
+  letter.style.left = (W / 2 + 260) + "px";
+  letter.style.top  = (H / 2 - 120) + "px";
 
   letter.classList.add("show");
+  letter.style.pointerEvents = "auto"; // 🔴 IMPORTANTE
   letterText.textContent = "";
 
   const msg = `Mi amor,
@@ -276,4 +284,10 @@ con todo mi amor 💖`;
     }
     letterText.textContent += msg[i++];
   }, 28);
+}
+
+// 🔴 FUNCIÓN QUE FALTABA BIEN HECHA
+function hideLetter() {
+  letter.classList.remove("show");
+  letter.style.pointerEvents = "none";
 }
