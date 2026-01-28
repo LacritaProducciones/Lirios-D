@@ -287,6 +287,28 @@ con todo mi amor 💖`;
 }
 
 // 🔴 FUNCIÓN QUE FALTABA BIEN HECHA
+
+
+#letter {
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #a855f7 transparent;
+}
+
+#letter::-webkit-scrollbar {
+  width: 6px;
+}
+
+#letter::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#letter::-webkit-scrollbar-thumb {
+  background-color: #a855f7;
+  border-radius: 10px;
+}
+
 function hideLetter() {
   letter.classList.remove("show");
   letter.style.pointerEvents = "none";
