@@ -259,22 +259,40 @@ function showLetter() {
   letter.style.pointerEvents = "auto"; // 🔴 IMPORTANTE
   letterText.textContent = "";
 
-  const msg = `Mi amor,
+  const msg = `Te amé en silencio, desde aquel primer instante,
+cuando tu mirada rozó la mía… y cambió todo lo restante.
+Quise ocultarlo en sombras, guardarlo en lo profundo,
+pero tu nombre latía en cada rincón de mi mundo.
 
-desde que llegaste a mi vida todo empezó a sentirse distinto, más bonito, más tranquilo, más real, contigo aprendí que el amor no siempre tiene que doler, que también puede ser suave, sincero, lleno de risas y de abrazos que curan todo,
+Callé por miedo, por culpa, por lo que no supe hacer,
+por las heridas del pasado que no logré deshacer.
+Pero hay sentimientos que no saben fingir,
+y cada vez que te veía… volvía a sentir.
 
-han pasado 3 meses y aun así siento que te conozco desde hace mucho más, porque contigo todo fluye, contigo soy yo sin miedo, sin máscaras, sin dudas, contigo puedo ser cursi, intenso, callado, loco, soñador, y aun así tú me miras como si eso fuera perfecto,
+No importaba el tiempo, ni lo que intentara olvidar,
+porque algo en ti siempre me volvía a despertar.
+Como un eco constante, como un susurro en mi ser,
+recordándome en silencio que te iba a querer.
 
-me encanta la forma en la que sonríes, la forma en la que hablas, la forma en la que me miras sin decir nada y aun así lo dices todo, me encanta cómo me haces sentir en casa incluso cuando estoy lejos, cómo haces que un día normal se vuelva especial solo con existir,
+Hoy tomas otro camino, de la mano de alguien más,
+y aunque no fui tu destino… no te voy a detener jamás.
+Porque si eres feliz, aunque no sea junto a mí,
+prefiero verte sonreír… que tenerte y verte sufrir.
 
-no prometo ser perfecto, pero sí prometo amarte con todo lo que soy, cuidarte, respetarte, elegirte todos los días, incluso en los días difíciles, incluso cuando no sepamos qué decir, incluso cuando el mundo se sienta pesado,
+Y aunque no me ames, y aunque nunca lo harás,
+mi amor por ti no entiende de finales ni de “quizás”.
+No pide respuesta, no exige razón,
+solo vive en lo eterno… dentro de mi corazón.
 
-gracias por estos 3 meses, gracias por tu paciencia, por tu cariño, por tu ternura, por quedarte, por enseñarme que amar así de bonito sí es posible,
+No importará con quién estés, ni a dónde quieras llegar,
+porque siempre habrá algo en ti que me vuelva a despertar.
+No como un lamento, ni como dolor,
+sino como el recuerdo más puro… de lo que es el amor.
 
-te amo más de lo que puedo explicar, más de lo que estas palabras alcanzan, más de lo que a veces sé decir, pero siempre con el corazón completo,
-
-siempre tuyo,
-con todo mi amor 💖`;
+Te amaré en silencio, sin tiempo ni condición,
+como quien guarda un verso que nunca tuvo canción.
+Y aunque la vida nos lleve por distinto sendero,
+yo te amaré… incluso si nunca fui el primero.`;
 
   let i = 0;
   const it = setInterval(() => {
